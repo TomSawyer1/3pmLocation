@@ -1,56 +1,34 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import HomePage from '../views/HomePage.vue';
-import NewPage from '../views/NewPage.vue';
-import BmwM3 from '../views/BmwM3.vue';
-import NosModels from '../views/NosModels.vue';
-import Abonnements from '../views/Abonnements.vue';
-import Connexion from '../views/Connexion.vue'; // Importation de la page Connexion
-import Inscription from '../views/Inscription.vue';
+import NewsPage from '../views/NewsPage.vue';
+import NewsDetailPage from '../views/NewsDetailPage.vue';
+import ContactPage from '../views/ContactPage.vue';
+import SignupPage from '../views/SignupPage.vue';
+import LoginPage from '../views/LoginPage.vue';
+import SubscriptionPage from '../views/SubscriptionPage.vue';
+import UserProfilePage from '../views/UserProfilePage.vue';
+import LegalPage from '../views/LegalPage.vue';
+import TermsPage from '../views/TermsPage.vue';
+import PrivacyPage from '../views/PrivacyPage.vue';
+import ModelsPage from '../views/ModelsPage.vue';
 
 const routes = [
-  {
-    path: '/',
-    redirect: '/home'
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: HomePage
-  },
-  {
-    path: '/newpage',
-    name: 'NewPage',
-    component: NewPage
-  },
-  {
-    path: '/bmwm3',
-    name: 'BmwM3',
-    component: BmwM3
-  },
-  {
-    path: '/nosmodels',
-    name: 'NosModels',
-    component: NosModels
-  },
-  {
-    path: '/abonnements',
-    name: 'Abonnements',
-    component: Abonnements
-  },
-  {
-    path: '/connexion',
-    name: 'Connexion',
-    component: Connexion
-  },
-  {
-    path: '/inscription',
-    name: 'Inscription',
-    component: Inscription
-  },
+  { path: '/', component: HomePage },
+  { path: '/news', component: NewsPage },
+  { path: '/news/:id', component: NewsDetailPage },
+  { path: '/contact', component: ContactPage },
+  { path: '/signup', component: SignupPage },
+  { path: '/login', component: LoginPage },
+  { path: '/subscription', component: SubscriptionPage },
+  { path: '/user-profile', component: UserProfilePage },
+  { path: '/legal', component: LegalPage },
+  { path: '/terms', component: TermsPage },
+  { path: '/privacy', component: PrivacyPage },
+  { path: '/models', component: ModelsPage } // Nouvelle route ajoutée ici
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes
 });
 
