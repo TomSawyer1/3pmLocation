@@ -23,6 +23,20 @@
       </ion-item>
       <ion-button expand="full" @click="updateProfile">Mettre à jour</ion-button>
       <ion-button expand="full" color="danger" @click="deleteAccount">Supprimer le compte</ion-button>
+      
+      <!-- Tableau des prélèvements -->
+      <ion-grid>
+        <ion-row>
+          <ion-col>Type</ion-col>
+          <ion-col>Date</ion-col>
+          <ion-col>Montant</ion-col>
+        </ion-row>
+        <ion-row v-for="payment in payments" :key="payment.id">
+          <ion-col>{{ payment.type }}</ion-col>
+          <ion-col>{{ payment.date }}</ion-col>
+          <ion-col>{{ payment.amount }}</ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-content>
   </ion-page>
 </template>
@@ -41,7 +55,10 @@ import {
   IonButton,
   IonButtons,
   IonMenuButton,
-  menuController
+  menuController,
+  IonGrid,
+  IonRow,
+  IonCol
 } from '@ionic/vue';
 
 const user = ref({
@@ -49,6 +66,12 @@ const user = ref({
   email: '',
   password: ''
 });
+
+const payments = ref([
+  // Exemple de données. Remplacez-les par vos propres données
+  { id: 1, type: 'Passé', date: '2023-01-01', amount: '100€' },
+  { id: 2, type: 'À venir', date: '2024-01-01', amount: '100€' },
+]);
 
 const updateProfile = () => {
   console.log('Profile Updated:', user.value);
@@ -94,5 +117,15 @@ ion-content {
   --padding-start: 16px;
   --padding-end: 16px;
   color: #ffffff;
+}
+
+ion-grid {
+  padding: 16px;
+}
+
+ion-row {
+  border-bottom: 1px solid #ccc;
+  padding: 8px 0;
+  color: #ffffff; /* Pour s'assurer que le texte est visible */
 }
 </style>
