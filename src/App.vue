@@ -15,8 +15,8 @@
           <ion-title>Menu</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-content>
-        <ion-list>
+      <ion-content :scroll-y="false">
+          <ion-list>
           <ion-item router-link="/" detail @click="closeMenu">Accueil</ion-item>
           <ion-item router-link="/news" detail @click="closeMenu">Actualités</ion-item>
           <ion-item router-link="/contact" detail @click="closeMenu">Contact</ion-item>
@@ -29,21 +29,38 @@
           <ion-item router-link="/privacy" detail @click="closeMenu">Politique de Confidentialité</ion-item>
           <ion-item router-link="/models" detail @click="closeMenu">Nos Models</ion-item>
         </ion-list>
+
+        
       </ion-content>
+      
     </ion-menu>
 
     <ion-router-outlet id="main-content"></ion-router-outlet>
 //footer
-    <ion-footer>
+<!--<ion-footer collapse="fade">
       <ion-toolbar>
         <ion-title>© 2024 BMW 3PM Location</ion-title>
       </ion-toolbar>
-    </ion-footer>
+    </ion-footer> -->
   </ion-app>
+  
 </template>
 
 <script>
-import { IonApp, IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonContent, IonList, IonItem, IonRouterOutlet, IonFooter, menuController } from '@ionic/vue';
+import { 
+  IonApp,
+  IonHeader, 
+  IonToolbar, 
+  IonTitle, 
+  IonButtons, 
+  IonMenuButton, 
+  IonContent, 
+  IonList, 
+  IonItem, 
+  IonRouterOutlet, 
+  IonFooter, 
+  menuController 
+} from '@ionic/vue';
 
 export default {
   components: {
@@ -67,7 +84,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
 body {
   --ion-background-color: #18181b;
   --ion-text-color: #ffffff;
@@ -83,7 +100,7 @@ ion-content {
   --background: #18181b;
 }
 
-ion-card {
+/*ion-card {
   background: #23232a;
   color: #ffffff;
   border-radius: 10px;
@@ -107,9 +124,13 @@ ion-card-subtitle {
 ion-card-content {
   font-size: 1em;
 }
-
+*/
 ion-menu-button,
 ion-back-button {
   color: #ffffff;
 }
+
+/*ion-footer{
+  background-color: black;
+}*/
 </style>

@@ -24,25 +24,50 @@
       <ion-button expand="full" @click="updateProfile">Mettre à jour</ion-button>
       <ion-button expand="full" color="danger" @click="deleteAccount">Supprimer le compte</ion-button>
       
-      <!-- Tableau des prélèvements -->
+      <!-- Tableau des prélèvements des trois derniers mois -->
       <ion-grid>
         <ion-row>
           <ion-col>Type</ion-col>
           <ion-col>Date</ion-col>
           <ion-col>Montant</ion-col>
         </ion-row>
-        <ion-row v-for="payment in payments" :key="payment.id">
+        <ion-row v-for="payment in recentPayments" :key="payment.id">
           <ion-col>{{ payment.type }}</ion-col>
           <ion-col>{{ payment.date }}</ion-col>
           <ion-col>{{ payment.amount }}</ion-col>
         </ion-row>
       </ion-grid>
+      
+      <!-- Tableau des prélèvements à venir -->
+      <ion-grid>
+        <ion-row>
+          <ion-col>Type</ion-col>
+          <ion-col>Date</ion-col>
+          <ion-col>Montant</ion-col>
+        </ion-row>
+        <ion-row v-for="payment in upcomingPayments" :key="payment.id">
+          <ion-col>{{ payment.type }}</ion-col>
+          <ion-col>{{ payment.date }}</ion-col>
+          <ion-col>{{ payment.amount }}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <!-- Utilisation de la carte de danger -->
+      <ion-card color="danger">
+        <ion-card-header>
+          <ion-card-title>Card Title</ion-card-title>
+          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content> Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, velit dolorum in recusandae alias illo veniam reiciendis maxime fuga eum modi itaque autem inventore nostrum minima voluptates non quo nesciunt!</ion-card-content>
+      </ion-card>
+
     </ion-content>
   </ion-page>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import {
   IonPage,
   IonHeader,
@@ -58,7 +83,12 @@ import {
   menuController,
   IonGrid,
   IonRow,
-  IonCol
+  IonCol,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle
 } from '@ionic/vue';
 
 const user = ref({
@@ -68,10 +98,20 @@ const user = ref({
 });
 
 const payments = ref([
-  // Exemple de données. Remplacez-les par vos propres données
-  { id: 1, type: 'Passé', date: '2023-01-01', amount: '100€' },
-  { id: 2, type: 'À venir', date: '2024-01-01', amount: '100€' },
+  { id: 1, type: 'Passé', date: '2023-03-01', amount: '100€' },
+  { id: 2, type: 'Passé', date: '2023-05-01', amount: '100€' },
+  { id: 3, type: 'À venir', date: '2024-01-01', amount: '100€' },
+  { id: 4, type: 'Passé', date: '2024-02-01', amount: '100€' },
+  { id: 5, type: 'À venir', date: '2024-03-01', amount: '100€' },
 ]);
+
+const recentPayments = computed(() => {
+  return payments.value.filter(payment => payment.type === 'Passé');
+});
+
+const upcomingPayments = computed(() => {
+  return payments.value.filter(payment => payment.type === 'À venir');
+});
 
 const updateProfile = () => {
   console.log('Profile Updated:', user.value);
@@ -86,6 +126,10 @@ const deleteAccount = () => {
 const closeMenu = () => {
   menuController.close();
 };
+
+// Debugging logs to verify computed values
+console.log('Recent Payments:', recentPayments.value);
+console.log('Upcoming Payments:', upcomingPayments.value);
 </script>
 
 <style scoped>
