@@ -9,7 +9,7 @@
         </ion-toolbar>
       </ion-header>
       <ion-content>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non risus nec orci fermentum tristique.</p>
+        <p>thomas ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non risus nec orci fermentum tristique.</p>
       </ion-content>
       <ion-footer>
         <ion-toolbar>

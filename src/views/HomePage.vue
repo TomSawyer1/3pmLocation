@@ -9,7 +9,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <h1>Bienvenue sur BMW 3PM Location</h1>
+      <h1>Bienvenue sur BMW 3PM Location </h1>
       <p>Découvrez nos services de location de voitures de luxe et abonnez-vous pour en profiter pleinement.</p>
       <ion-card class="model-card">
         <img alt="BMW M3 E90" src="https://ionicframework.com/docs/img/demos/card-media.png" />

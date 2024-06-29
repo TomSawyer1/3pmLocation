@@ -9,20 +9,27 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <ion-item>
-        <ion-label position="stacked">Nom</ion-label>
-        <ion-input v-model="user.name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input v-model="user.email" type="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Mot de passe</ion-label>
-        <ion-input v-model="user.password" type="password"></ion-input>
-      </ion-item>
-      <ion-button expand="full" @click="updateProfile">Mettre à jour</ion-button>
-      <ion-button expand="full" color="danger" @click="deleteAccount">Supprimer le compte</ion-button>
+
+            <!-- Utilisation de la carte de danger -->
+            <ion-card color="danger">
+        <ion-card-header>
+          <ion-card-title>Card Title</ion-card-title>
+          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content> 
+          <ion-list>
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+          </ion-thumbnail>
+          <ion-label>Item</ion-label>
+        </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+      
       
       <!-- Tableau des prélèvements des trois derniers mois -->
       <ion-grid>
@@ -52,15 +59,20 @@
         </ion-row>
       </ion-grid>
 
-      <!-- Utilisation de la carte de danger -->
-      <ion-card color="danger">
-        <ion-card-header>
-          <ion-card-title>Card Title</ion-card-title>
-          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-        </ion-card-header>
-
-        <ion-card-content> Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, velit dolorum in recusandae alias illo veniam reiciendis maxime fuga eum modi itaque autem inventore nostrum minima voluptates non quo nesciunt!</ion-card-content>
-      </ion-card>
+      <ion-item>
+        <ion-label position="stacked">Nom</ion-label>
+        <ion-input v-model="user.name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input v-model="user.email" type="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Mot de passe</ion-label>
+        <ion-input v-model="user.password" type="password"></ion-input>
+      </ion-item>
+      <ion-button expand="full" @click="updateProfile">Mettre à jour</ion-button>
+      <ion-button expand="full" color="danger" @click="deleteAccount">Supprimer le compte</ion-button>
 
     </ion-content>
   </ion-page>

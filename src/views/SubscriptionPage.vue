@@ -9,12 +9,40 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
+
+      <ion-card color="primary">
+    <ion-card-header>
+      <ion-card-title>Blue Primary</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content> Card Content </ion-card-content>
+  </ion-card>
+
+  <ion-card color="secondary">
+    <ion-card-header>
+      <ion-card-title>Blue Secondary</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content> Card Content </ion-card-content>
+  </ion-card>
+
+  <ion-card color="danger">
+    <ion-card-header>
+      <ion-card-title>Red</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content> Card Content </ion-card-content>
+  </ion-card>
+
       <ion-item>
         <ion-label position="stacked">Type d'abonnement</ion-label>
         <ion-select v-model="form.subscriptionType">
-          <ion-select-option value="A">Abonnement A - 2€/minute</ion-select-option>
-          <ion-select-option value="B">Abonnement B - 2.5€/minute</ion-select-option>
-          <ion-select-option value="C">Abonnement C - 3€/minute</ion-select-option>
+          <ion-select-option value="A">Abonnement Blue Primary - 2€/minute</ion-select-option>
+          <ion-select-option value="B">Abonnement Blue Secondary - 2.5€/minute</ion-select-option>
+          <ion-select-option value="C">Abonnement Red - 3€/minute</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
@@ -42,6 +70,11 @@ import {
   IonButton,
   IonButtons,
   IonMenuButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
   menuController
 } from '@ionic/vue';
 
@@ -73,6 +106,10 @@ ion-label {
 
 ion-input,
 ion-select {
+  color: #ffffff;
+}
+
+ion-select-option{
   color: #ffffff;
 }
 

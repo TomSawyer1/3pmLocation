@@ -1,5 +1,4 @@
 <template>
-  <MenuComponent />
   <ion-page id="main-content">
     <ion-header>
       <ion-toolbar>
@@ -26,7 +25,7 @@ import {
   IonMenuButton,
   IonButtons
 } from '@ionic/vue';
-import MenuComponent from '@/components/MenuComponent.vue';
+
 </script>
 
 <style scoped>

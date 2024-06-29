@@ -6,6 +6,7 @@ import ContactPage from '../views/ContactPage.vue';
 import SignupPage from '../views/SignupPage.vue';
 import LoginPage from '../views/LoginPage.vue';
 import SubscriptionPage from '../views/SubscriptionPage.vue';
+import PayCardPage from '../views/PayCardPage.vue';
 import UserProfilePage from '../views/UserProfilePage.vue';
 import LegalPage from '../views/LegalPage.vue';
 import TermsPage from '../views/TermsPage.vue';
@@ -40,6 +41,10 @@ const routes = [
   { 
     path: '/subscription', 
     component: SubscriptionPage 
+  },
+  {
+    path: '/subscription/payment',
+    component: PayCardPage
   },
   { 
     path: '/user-profile', 

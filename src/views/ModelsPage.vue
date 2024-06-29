@@ -12,7 +12,7 @@
 
     <ion-content class="ion-padding" scroll-y="true">
       <ion-card class="model-card">
-        <img alt="BMW M3 E90" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+        <ion-img alt="BMW M3 E90" src="../public/img/white.jpg" />
         <ion-card-header>
           <ion-card-title>BMW M3 E90</ion-card-title>
           <ion-card-subtitle>Sportive élégante</ion-card-subtitle>
@@ -23,7 +23,7 @@
       </ion-card>
 
       <ion-card class="model-card">
-        <img alt="BMW M3 F80" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+        <ion-img alt="BMW M3 F80" src="../public/img/Bmwblue.jpg" />
         <ion-card-header>
           <ion-card-title>BMW M3 F80</ion-card-title>
           <ion-card-subtitle>Performance et style</ion-card-subtitle>
@@ -34,7 +34,7 @@
       </ion-card>
 
       <ion-card class="model-card">
-        <img alt="BMW M3 G80" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+        <ion-img alt="BMW M3 G80" src="../public/img/Bmwred2.jpg" />
         <ion-card-header>
           <ion-card-title>BMW M3 G80</ion-card-title>
           <ion-card-subtitle>Puissance et technologie</ion-card-subtitle>
@@ -61,6 +61,7 @@ import {
   IonCardContent,
   IonButtons,
   IonMenuButton,
+  IonImg,
   menuController
 } from '@ionic/vue';
 
@@ -91,6 +92,7 @@ ion-card img {
 ion-card-title {
   font-size: 1.2em; /* Taille de police augmentée pour le titre */
   font-weight: bold; /* Titre en gras */
+  color: #fff;
 }
 
 ion-card-subtitle {
