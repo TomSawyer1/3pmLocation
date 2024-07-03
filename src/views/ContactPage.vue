@@ -3,11 +3,12 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-menu-button @click="closeMenu"/>
+          <ion-menu-button/>
         </ion-buttons>
         <ion-title>Contact</ion-title>
       </ion-toolbar>
     </ion-header>
+
     <ion-content class="ion-padding">
       <ion-item>
         <ion-label position="stacked">Nom/Prénom</ion-label>
@@ -26,6 +27,22 @@
         <ion-textarea v-model="form.message"></ion-textarea>
       </ion-item>
       <ion-button expand="full" @click="submitForm">Envoyer</ion-button>
+
+      <div class="contact-card contact-info">
+                    <h3>Coordonnées</h3>
+                    <p>19 rue Yves Toudic, 75010 Paris</p>
+                    <p>Téléphone : 01 23 45 67 89</p>
+                    <p>Email : contact@webstart.com</p>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.890080960569!2d2.364290915673417!3d48.86970847928832!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1c3ed7a0c5%3A0x1a2a8e9e6e09db20!2s19%20Rue%20Yves%20Toudic%2C%2075010%20Paris%2C%20France!5e0!3m2!1sen!2sus!4v1638282062582!5m2!1sen!2sus"
+                        width="100%"
+                        height="250"
+                        style="border: 0"
+                        allowfullscreen=""
+                        loading="lazy"
+                    ></iframe>
+                </div>
+                
     </ion-content>
   </ion-page>
 </template>

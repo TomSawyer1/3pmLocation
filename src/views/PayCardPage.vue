@@ -24,42 +24,9 @@
               </ion-item>
             </ion-card-content>
           </ion-card>
-  
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title class="ion-text-center">Informations de paiement</ion-card-title>
-            </ion-card-header>
-  
-            <ion-card-content>
-              <ion-item>
-                <ion-label position="floating">Nom du titulaire de la carte</ion-label>
-                <ion-input v-model="cardName"></ion-input>
-              </ion-item>
-  
-              <ion-item>
-                <ion-label position="floating">Numéro de la carte</ion-label>
-                <ion-input type="tel" inputmode="numeric" pattern="[0-9]*" v-model="cardNumber"></ion-input>
-              </ion-item>
-  
-              <ion-item>
-                <ion-label position="floating">Date d'expiration</ion-label>
-                <ion-input type="month" v-model="expiryDate"></ion-input>
-              </ion-item>
-  
-              <ion-item>
-                <ion-label position="floating">Code CVV</ion-label>
-                <ion-input type="password" inputmode="numeric" pattern="[0-9]*" v-model="cvv"></ion-input>
-              </ion-item>
               
-              <ion-item>
-                <ion-label position="floating">Code Promo</ion-label>
-                <ion-input v-model="promoCode"></ion-input>
-                <ion-button slot="end" @click="verifyPromoCode">Vérifier</ion-button>
-              </ion-item>
-              
-              <ion-button expand="full" @click="makePayment">Payer</ion-button>
-            </ion-card-content>
-          </ion-card>
+              <ion-button expand="full" @click="makePayment">Accéder au service</ion-button>
+            
         </ion-content>
       </ion-page>
     </ion-split-pane>

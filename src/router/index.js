@@ -12,6 +12,8 @@ import LegalPage from '../views/LegalPage.vue';
 import TermsPage from '../views/TermsPage.vue';
 import PrivacyPage from '../views/PrivacyPage.vue';
 import ModelsPage from '../views/ModelsPage.vue';
+import SuccessPage from '../views/SuccessPage.vue';
+import UnsuccesssPage from '../views/UnsuccessPage.vue';
 
 const routes = [
   { 
@@ -65,6 +67,14 @@ const routes = [
   { 
     path: '/models', 
     component: ModelsPage 
+  },
+  {
+    path:'/successpay',
+    component: SuccessPage
+  },
+  {
+    path:'/unsuccespay',
+    component: UnsuccesssPage 
   } // Nouvelle route ajoutée ici
 ];
 

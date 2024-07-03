@@ -40,9 +40,9 @@
       <ion-item>
         <ion-label position="stacked">Type d'abonnement</ion-label>
         <ion-select v-model="form.subscriptionType">
-          <ion-select-option value="A">Abonnement Blue Primary - 2€/minute</ion-select-option>
-          <ion-select-option value="B">Abonnement Blue Secondary - 2.5€/minute</ion-select-option>
-          <ion-select-option value="C">Abonnement Red - 3€/minute</ion-select-option>
+          <ion-select-option value="A">Abonnement Blue Primary - 30€/Mois</ion-select-option>
+          <ion-select-option value="B">Abonnement Blue Secondary - 40€/Mois</ion-select-option>
+          <ion-select-option value="C">Abonnement Red - 50€/Mois</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
@@ -101,16 +101,17 @@ ion-item {
 }
 
 ion-label {
-  color: #ffffff;
+  color: #03b64d;
 }
 
 ion-input,
 ion-select {
-  color: #ffffff;
+  color: #fff;
 }
 
 ion-select-option{
-  color: #ffffff;
+  --background: #fff;
+  --color: #000;
 }
 
 ion-toolbar {
