@@ -78,12 +78,6 @@ import {
 
 <style scoped>
 
-ion-card-content {
-  color: #ffffff;
-  }
 
-ion-card-title{
-  color: #ffffff;
-}
 
 </style>

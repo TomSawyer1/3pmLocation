@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import { IonicVue } from '@ionic/vue';
 import App from './App.vue';
 import router from './router';
-import store from './store';
+import pinia from './stores'; // Importer Pinia depuis stores/index.js
 
 // Importer les styles de base d'Ionic
 import '@ionic/vue/css/core.css';
@@ -22,7 +22,7 @@ import '@ionic/vue/css/ionic.bundle.css';
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
-  .use(store);
+  .use(pinia);
 
 router.isReady().then(() => {
   app.mount('#app');

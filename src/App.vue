@@ -1,14 +1,5 @@
 <template>
   <ion-app>
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>3PM Location</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
     <!-- Menu Burger -->
     <ion-menu content-id="main-content">
       <ion-header>
@@ -22,9 +13,10 @@
           <ion-item router-link="/news" detail @click="closeMenu">Actualités</ion-item>
           <ion-item router-link="/models" detail @click="closeMenu">Nos Models</ion-item>
           <ion-item router-link="/subscription" detail @click="closeMenu">Abonnement</ion-item>
-          <ion-item router-link="/signup" detail @click="closeMenu">Inscription</ion-item>
-          <ion-item router-link="/login" detail @click="closeMenu">Connexion</ion-item>
-          <ion-item router-link="/user-profile" detail @click="closeMenu">Mon Compte</ion-item>
+          <ion-item router-link="/signup" v-if="!isAuthenticated" detail @click="closeMenu">Inscription</ion-item>
+          <ion-item router-link="/login" v-if="!isAuthenticated" detail @click="closeMenu">Connexion</ion-item>
+          <ion-item router-link="/user-profile" v-if="isAuthenticated" detail @click="closeMenu">Mon Compte</ion-item>
+          <ion-item v-if="isAuthenticated" detail @click="logout">Déconnexion</ion-item>
           <ion-item router-link="/contact" detail @click="closeMenu">Contact</ion-item>
           <ion-item router-link="/legal" detail @click="closeMenu">Mentions Légales</ion-item>
           <ion-item router-link="/terms" detail @click="closeMenu">CGV/CGU</ion-item>
@@ -44,7 +36,10 @@
   </ion-app>
 </template>
 
-<script>
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { authStore } from './stores'; // Assurez-vous que le chemin est correct
 import { 
   IonApp,
   IonHeader, 
@@ -60,45 +55,50 @@ import {
   menuController 
 } from '@ionic/vue';
 
-export default {
-  components: {
-    IonApp,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonButtons,
-    IonMenuButton,
-    IonContent,
-    IonList,
-    IonItem,
-    IonRouterOutlet,
-    IonFooter
-  },
-  methods: {
-    closeMenu() {
-      menuController.close();
-    }
-  }
+const router = useRouter();
+const store = authStore();
+const isAuthenticated = computed(() => store.isAuthenticated);
+
+const closeMenu = () => {
+  menuController.close();
 };
+
+const logout = () => {
+  store.logout();
+  closeMenu();
+  router.push('/login');
+};
+
+onMounted(() => {
+  store.checkAuth();
+});
 </script>
 
 <style>
 body {
-  --ion-background-color: #18181b;
-  --ion-text-color: #ffffff;
+  /* --ion-background-color: #18181b;
+   --ion-text-color: #ffffff; */
   font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
 ion-toolbar {
-  --background: #1f1f23;
+  --background: rgb(0,96,166);
+  --background: linear-gradient(118deg, rgba(0,96,166,1) 7%, rgba(156,0,0,1) 12%, rgba(0,0,0,1) 18%);
   --color: #ffffff;
 }
 
+ion-title {
+  color: var(--ion-text-color);
+  font-size: 1.2em; /* Taille de police pour les titres */
+}
 
 ion-menu-button,
 ion-back-button {
-  color: #ffffff;
+  color: var(--ion-text-color);
 }
 
-
-</style> 
+.custom-button{
+  width: 200px;
+  border-radius: 20px;
+}
+</style>

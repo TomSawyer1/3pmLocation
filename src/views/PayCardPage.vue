@@ -1,95 +1,94 @@
 <template>
-    <ion-split-pane when="md">
-      <ion-page id="main-content">
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>Paiement</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        
-        <ion-content class="ion-padding">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title class="ion-text-center">Récapitulatif de l'abonnement</ion-card-title>
-            </ion-card-header>
-  
-            <ion-card-content>
-              <ion-item>
-                <ion-label>Nom de l'abonnement</ion-label>
-                <ion-label class="ion-text-end">{{ subscriptionName }}</ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-label>Prix</ion-label>
-                <ion-label class="ion-text-end">{{ subscriptionPrice }} €</ion-label>
-              </ion-item>
-            </ion-card-content>
-          </ion-card>
-              
-              <ion-button expand="full" @click="makePayment">Accéder au service</ion-button>
-            
-        </ion-content>
-      </ion-page>
-    </ion-split-pane>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  import {
-    IonSplitPane,
-    IonPage,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
-    IonItem,
-    IonLabel,
-    IonInput,
-    IonButton
-  } from '@ionic/vue';
-  
-  
-  const subscriptionName = ref('Abonnement Premium');
-  const subscriptionPrice = ref('19.99');
-  
-  const cardName = ref('');
-  const cardNumber = ref('');
-  const expiryDate = ref('');
-  const cvv = ref('');
-  const promoCode = ref('');
-  
-  const verifyPromoCode = () => {
-    // Logique de vérification du code promo
-    console.log('Code promo:', promoCode.value);
-    // Vous pouvez ajouter ici l'intégration avec un service de vérification de code promo
-  };
-  
-  const makePayment = () => {
-    // Logique de traitement du paiement
-    console.log('Nom du titulaire de la carte:', cardName.value);
-    console.log('Numéro de la carte:', cardNumber.value);
-    console.log('Date d\'expiration:', expiryDate.value);
-    console.log('CVV:', cvv.value);
-    // Vous pouvez ajouter ici l'intégration avec un service de paiement
-  };
-  </script>
-  
-  <style scoped>
-  ion-card {
-    max-width: 500px;
-    margin: auto;
-    margin-top: 20px;
-    background: #23232a;
-    color: #ffffff;
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/subscription"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Paiement</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content class="ion-padding">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title class="ion-text-center">Récapitulatif de l'abonnement</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-item>
+            <ion-label>Nom de l'abonnement</ion-label>
+            <ion-label class="ion-text-end">{{ subscription.name }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Prix</ion-label>
+            <ion-label class="ion-text-end">{{ subscription.price / 100 }} €</ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+      <ion-button expand="full" @click="makePayment">Accéder au service</ion-button>
+    </ion-content>
+  </ion-page>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { subscriptionStore } from '../stores';
+import axios from 'axios';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonItem,
+  IonLabel,
+  IonButton,
+  IonBackButton,
+  IonButtons
+} from '@ionic/vue';
+
+const store = subscriptionStore();
+const subscription = computed(() => store.selectedSubscription);
+
+const makePayment = async () => {
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/stripe/checkout', {
+      product_id: subscription.value.id
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+
+    window.location.href = response.data.url;
+  } catch (error) {
+    console.error('Error processing payment:', error);
   }
+};
 
-  ion-card-title{
-    color: #ffffff;
-  }
+const router = useRouter();
 
+if (!subscription.value) {
+  router.push('/subscription');
+}
+</script>
 
-  </style>
-  
+<style scoped>
+ion-card {
+  max-width: 500px;
+  margin: auto;
+  margin-top: 20px;
+  background: #23232a;
+  color: #ffffff;
+}
+
+ion-card-title {
+  color: #ffffff;
+}
+</style>

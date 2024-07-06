@@ -9,40 +9,27 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
+      <div v-for="product in products" :key="product.id">
+        <ion-card :color="getCardColor(product.name)">
+          <ion-card-header>
+            <ion-card-title>{{ product.name }}</ion-card-title>
+            <ion-card-subtitle>Abonnement</ion-card-subtitle>
+          </ion-card-header>
 
-      <ion-card color="primary">
-    <ion-card-header>
-      <ion-card-title>Blue Primary</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content> Card Content </ion-card-content>
-  </ion-card>
-
-  <ion-card color="secondary">
-    <ion-card-header>
-      <ion-card-title>Blue Secondary</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content> Card Content </ion-card-content>
-  </ion-card>
-
-  <ion-card color="danger">
-    <ion-card-header>
-      <ion-card-title>Red</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content> Card Content </ion-card-content>
-  </ion-card>
+          <ion-card-content>
+            <p>{{ product.description }}</p>
+            <p v-for="detail in product.details.split(',')" :key="detail">{{ detail }}</p>
+            <p>{{ product.price / 100 }}€/Mois</p> 
+          </ion-card-content>
+        </ion-card>
+      </div>
 
       <ion-item>
         <ion-label position="stacked">Type d'abonnement</ion-label>
         <ion-select v-model="form.subscriptionType">
-          <ion-select-option value="A">Abonnement Blue Primary - 30€/Mois</ion-select-option>
-          <ion-select-option value="B">Abonnement Blue Secondary - 40€/Mois</ion-select-option>
-          <ion-select-option value="C">Abonnement Red - 50€/Mois</ion-select-option>
+          <ion-select-option v-for="product in products" :key="product.id" :value="product.id">
+            {{ product.name }} - {{ product.price / 100 }}€/Mois
+          </ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
@@ -55,7 +42,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { subscriptionStore } from '../stores';
 import {
   IonPage,
   IonHeader,
@@ -78,19 +68,49 @@ import {
   menuController
 } from '@ionic/vue';
 
+const router = useRouter();
+const store = subscriptionStore();
+
 const form = ref({
   subscriptionType: '',
   promoCode: ''
 });
 
+const products = ref([]);
+
+const getProducts = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/subscription');
+    products.value = response.data;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+};
+
+const getCardColor = (name) => {
+  if (name.includes('Primary')) return 'primary';
+  if (name.includes('Secondary')) return 'secondary';
+  if (name.includes('Red')) return 'danger';
+  return 'default';
+};
+
 const submitForm = () => {
-  console.log('Form Submitted:', form.value);
-  // Logic for form submission
+  const selectedProduct = products.value.find(product => product.id === form.value.subscriptionType);
+  if (selectedProduct) {
+    store.setSelectedSubscription(selectedProduct);
+    router.push('/subscription/payment');
+  } else {
+    console.error('No subscription selected');
+  }
 };
 
 const closeMenu = () => {
   menuController.close();
 };
+
+onMounted(() => {
+  getProducts();
+});
 </script>
 
 <style scoped>
@@ -115,7 +135,6 @@ ion-select-option{
 }
 
 ion-toolbar {
-  --background: #1f1f1f;
   --color: #ffffff;
 }
 

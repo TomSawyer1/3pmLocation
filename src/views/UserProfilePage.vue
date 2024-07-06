@@ -9,29 +9,13 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-
-            <!-- Utilisation de la carte de danger -->
-            <ion-card color="danger">
+      <ion-card color="danger">
         <ion-card-header>
-          <ion-card-title>Card Title</ion-card-title>
-          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+          <ion-card-title>{{ user.firstName }} {{ user.lastName }}</ion-card-title>
+          <ion-card-subtitle>{{ user.email }}</ion-card-subtitle>
         </ion-card-header>
-
-        <ion-card-content> 
-          <ion-list>
-        <ion-item>
-          <ion-thumbnail slot="start">
-            <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-          </ion-thumbnail>
-          <ion-label>Item</ion-label>
-        </ion-item>
-          </ion-list>
-        </ion-card-content>
       </ion-card>
 
-      
-      
-      <!-- Tableau des prélèvements des trois derniers mois -->
       <ion-grid>
         <ion-row>
           <ion-col>Type</ion-col>
@@ -45,7 +29,6 @@
         </ion-row>
       </ion-grid>
       
-      <!-- Tableau des prélèvements à venir -->
       <ion-grid>
         <ion-row>
           <ion-col>Type</ion-col>
@@ -60,26 +43,56 @@
       </ion-grid>
 
       <ion-item>
+        <ion-label position="stacked">Prénom</ion-label>
+        <ion-input v-model="user.firstName"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label position="stacked">Nom</ion-label>
-        <ion-input v-model="user.name"></ion-input>
+        <ion-input v-model="user.lastName"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Email</ion-label>
         <ion-input v-model="user.email" type="email"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Mot de passe</ion-label>
-        <ion-input v-model="user.password" type="password"></ion-input>
+
+      <!-- Affichage des informations d'abonnement -->
+      <ion-item v-if="hasSubscription">
+        <ion-label position="stacked">Statut de l'abonnement</ion-label>
+        <ion-input v-model="user.subscriptionStatus" readonly></ion-input>
       </ion-item>
+      <ion-item v-if="hasSubscription">
+        <ion-label position="stacked">Fin de la période actuelle</ion-label>
+        <ion-input v-model="user.currentPeriodEnd" readonly></ion-input>
+      </ion-item>
+
       <ion-button expand="full" @click="updateProfile">Mettre à jour</ion-button>
       <ion-button expand="full" color="danger" @click="deleteAccount">Supprimer le compte</ion-button>
+      
+      <ion-button v-if="hasSubscription" expand="full" @click="accessBillingPortal">Accéder au portail de facturation</ion-button>
 
+      <ion-alert
+        v-if="showDeleteAlert"
+        :is-open="showDeleteAlert"
+        header="Compte supprimé"
+        message="Votre compte a été supprimé avec succès. Redirection vers l'inscription dans 2 secondes."
+        buttons="OK"
+      />
+      <ion-alert
+        v-if="showUpdateAlert"
+        :is-open="showUpdateAlert"
+        header="Succès"
+        message="Votre profil a été mis à jour avec succès."
+        buttons="OK"
+        @didDismiss="handleAlertDismiss"
+      />
     </ion-content>
   </ion-page>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 import {
   IonPage,
   IonHeader,
@@ -97,25 +110,29 @@ import {
   IonRow,
   IonCol,
   IonCard,
-  IonCardContent,
   IonCardHeader,
+  IonCardTitle,
   IonCardSubtitle,
-  IonCardTitle
+  IonAlert
 } from '@ionic/vue';
+import { authStore } from '../stores';
+
+const router = useRouter();
+const store = authStore();
 
 const user = ref({
-  name: '',
+  firstName: '',
+  lastName: '',
   email: '',
-  password: ''
+  password: '',
+  subscriptionStatus: '',
+  currentPeriodEnd: ''
 });
 
-const payments = ref([
-  { id: 1, type: 'Passé', date: '2023-03-01', amount: '100€' },
-  { id: 2, type: 'Passé', date: '2023-05-01', amount: '100€' },
-  { id: 3, type: 'À venir', date: '2024-01-01', amount: '100€' },
-  { id: 4, type: 'Passé', date: '2024-02-01', amount: '100€' },
-  { id: 5, type: 'À venir', date: '2024-03-01', amount: '100€' },
-]);
+const hasSubscription = ref(false);
+const showUpdateAlert = ref(false);
+const showDeleteAlert = ref(false);
+const payments = ref([]);
 
 const recentPayments = computed(() => {
   return payments.value.filter(payment => payment.type === 'Passé');
@@ -125,43 +142,101 @@ const upcomingPayments = computed(() => {
   return payments.value.filter(payment => payment.type === 'À venir');
 });
 
-const updateProfile = () => {
-  console.log('Profile Updated:', user.value);
-  // Logic for updating profile
+const getUserProfile = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/user', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    const userData = response.data;
+    const [firstName, lastName] = userData.name.split(' ');
+    user.value.firstName = firstName;
+    user.value.lastName = lastName;
+    user.value.email = userData.email;
+    user.value.subscriptionStatus = userData.subscription_status;
+    user.value.currentPeriodEnd = new Date(userData.current_period_end).toLocaleDateString();
+
+    hasSubscription.value = !!userData.stripe_customer_id;
+
+    const paymentResponse = await axios.get('http://127.0.0.1:8000/api/payments', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    payments.value = paymentResponse.data;
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+  }
 };
 
-const deleteAccount = () => {
-  console.log('Account Deleted');
-  // Logic for deleting account
+const updateProfile = async () => {
+  try {
+    await axios.put('http://127.0.0.1:8000/api/user', {
+      first_name: user.value.firstName,
+      last_name: user.value.lastName,
+      email: user.value.email,
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+
+    showUpdateAlert.value = true;
+  } catch (error) {
+    console.error('Error updating profile:', error);
+  }
+};
+
+const deleteAccount = async () => {
+  try {
+    await axios.delete('http://127.0.0.1:8000/api/user', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+
+    showDeleteAlert.value = true;
+
+    setTimeout(() => {
+      store.logout();
+      router.push('/');
+    }, 2000);
+
+  } catch (error) {
+    console.error('Error deleting account:', error);
+  }
+};
+
+const accessBillingPortal = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/stripe/customer', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    window.location.href = response.data.url;
+  } catch (error) {
+    console.error('Error accessing billing portal:', error);
+  }
+};
+
+const handleAlertDismiss = () => {
+  showUpdateAlert.value = false;
 };
 
 const closeMenu = () => {
   menuController.close();
 };
 
-// Debugging logs to verify computed values
-console.log('Recent Payments:', recentPayments.value);
-console.log('Upcoming Payments:', upcomingPayments.value);
+onMounted(() => {
+  getUserProfile();
+});
 </script>
 
 <style scoped>
 ion-item {
-  --background: #23232a;
-  --color: #ffffff;
   margin-bottom: 15px;
-}
-
-ion-label {
-  color: #ffffff;
-}
-
-ion-input {
-  color: #ffffff;
-}
-
-ion-toolbar {
-  --background: #1f1f1f;
-  --color: #ffffff;
 }
 
 ion-header ion-title {
@@ -182,6 +257,5 @@ ion-grid {
 ion-row {
   border-bottom: 1px solid #ccc;
   padding: 8px 0;
-  color: #ffffff; /* Pour s'assurer que le texte est visible */
 }
 </style>

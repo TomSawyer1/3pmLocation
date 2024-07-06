@@ -1,5 +1,4 @@
 <template>
-  <MenuComponent />
   <ion-page id="main-content">
     <ion-header>
       <ion-toolbar>
@@ -92,24 +91,20 @@ ion-card img {
 ion-card-title {
   font-size: 1.2em; /* Taille de police augmentée pour le titre */
   font-weight: bold; /* Titre en gras */
-  color: #fff;
+  
 }
 
 ion-card-subtitle {
-  color: #fff; /* Couleur du sous-titre */
+   /* Couleur du sous-titre */
   font-size: 1em; /* Taille de police pour le sous-titre */
 }
 
 ion-card-content {
   font-size: 0.9em; /* Taille de police pour le contenu */
-  color: #fff; /* Couleur du texte */
+   /* Couleur du texte */
   padding: 10px 16px; /* Espacement interne */
 }
 
-ion-toolbar {
-  --background: #f8f8f8; /* Couleur de fond de la barre d'outils */
-  --color: #000; /* Couleur du texte de la barre d'outils */
-}
 
 ion-header ion-title {
   font-size: 1.4em; /* Taille de police augmentée pour le titre de la barre d'outils */

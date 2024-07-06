@@ -13,7 +13,8 @@ import TermsPage from '../views/TermsPage.vue';
 import PrivacyPage from '../views/PrivacyPage.vue';
 import ModelsPage from '../views/ModelsPage.vue';
 import SuccessPage from '../views/SuccessPage.vue';
-import UnsuccesssPage from '../views/UnsuccessPage.vue';
+import UnsuccessPage from '../views/UnsuccessPage.vue';
+import { authStore } from '../stores';
 
 const routes = [
   { 
@@ -32,25 +33,31 @@ const routes = [
     path: '/contact', 
     component: ContactPage 
   },
+  // login & signup accessible que si on est pas connecté
   { 
     path: '/signup',
-    component: SignupPage 
+    component: SignupPage,
+    meta: { requiresAuth: false }
   },
   { 
     path: '/login', 
-    component: LoginPage 
+    component: LoginPage,
+    meta: { requiresAuth: false }
   },
   { 
     path: '/subscription', 
     component: SubscriptionPage 
   },
+  // faut etre connecte car state a true 
   {
     path: '/subscription/payment',
-    component: PayCardPage
+    component: PayCardPage,
+    meta: { requiresAuth: true }
   },
   { 
     path: '/user-profile', 
-    component: UserProfilePage 
+    meta: { requiresAuth: true },
+    component: UserProfilePage
   },
   { 
     path: '/legal', 
@@ -70,17 +77,39 @@ const routes = [
   },
   {
     path:'/successpay',
-    component: SuccessPage
+    component: SuccessPage,
+    meta: { requiresAuth: true }
   },
   {
-    path:'/unsuccespay',
-    component: UnsuccesssPage 
-  } // Nouvelle route ajoutée ici
+    path:'/unsuccesspay',
+    component: UnsuccessPage,
+    meta: { requiresAuth: true }
+  }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
+});
+
+// appel du middleware qui va renvoyez vers login si non connecte
+
+//beforeEach qui permet d'etre appeller en premier 
+router.beforeEach((to, from, next) => {
+  const store = authStore();
+  // appel de mon action checkAuth
+  store.checkAuth();
+  // vérifie si l'utilisateur est connecté
+  if (to.meta.requiresAuth && !store.isAuthenticated) {
+    // si l'utilisateur n'est pas connecté et la route nécessite une authentification
+    next('/login');
+  } else if (!to.meta.requiresAuth && store.isAuthenticated && (to.path === '/login' || to.path === '/signup')) {
+    // si l'utilisateur est connecté et essaie d'accéder à la page de connexion ou d'inscription
+    next('/user-profile');
+  } else {
+    // si aucune des conditions ci-dessus n'est remplie
+    next();
+  }
 });
 
 export default router;

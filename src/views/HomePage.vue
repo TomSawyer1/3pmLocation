@@ -5,42 +5,15 @@
         <ion-buttons slot="start">
           <ion-menu-button @click="closeMenu"/>
         </ion-buttons>
-        <ion-title>Accueil</ion-title>
+        <ion-title>3PM Location</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
-      <h1>Bienvenue sur BMW 3PM Location </h1>
-      <p>Découvrez nos services de location de voitures de luxe et abonnez-vous pour en profiter pleinement.</p>
-      <ion-card class="model-card">
-        <img alt="BMW M3 E90" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-        <ion-card-header>
-          <ion-card-title>BMW M3 E90</ion-card-title>
-          <ion-card-subtitle>Sportive élégante</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          Abonnement A: 2€ par minute.
-        </ion-card-content>
-      </ion-card>
-      <ion-card class="model-card">
-        <img alt="BMW M3 F80" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-        <ion-card-header>
-          <ion-card-title>BMW M3 F80</ion-card-title>
-          <ion-card-subtitle>Performance et style</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          Abonnement B: 2.5€ par minute.
-        </ion-card-content>
-      </ion-card>
-      <ion-card class="model-card">
-        <img alt="BMW M3 G80" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-        <ion-card-header>
-          <ion-card-title>BMW M3 G80</ion-card-title>
-          <ion-card-subtitle>Puissance et technologie</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          Abonnement C: 3€ par minute.
-        </ion-card-content>
-      </ion-card>
+    <ion-content class="content-center">
+      <div class="text-center">
+        <h1> BMW 3PM Location</h1>
+        <p>Découvrez nos services de location de voitures de luxe et abonnez-vous pour en profiter pleinement.</p>
+        <ion-button class="custom-button" router-link="/subscription">Abonnement</ion-button>
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -52,13 +25,9 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
-  IonCardContent,
   IonButtons,
   IonMenuButton,
+  IonButton,
   menuController
 } from '@ionic/vue';
 
@@ -68,38 +37,37 @@ const closeMenu = () => {
 </script>
 
 <style scoped>
-ion-card {
-  background: #23232a;
-  color: #ffffff;
+ion-title {
+  font-size: 1.4em;
+}
+
+ion-content {
+  --background: url('../public/img/BmwWall.jpg') no-repeat center center / cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Prend toute la hauteur de la vue */
+}
+
+.text-center {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent pour le texte */
+  padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
 }
 
-ion-card:hover {
-  transform: translateY(-5px);
+h1 {
+  margin-bottom: 20px;
+  color: #fff;
 }
 
-ion-card-title {
-  font-size: 1.4em;
-  font-weight: bold;
+p{
+  color: #fff;
 }
 
-ion-card-subtitle {
-  color: #888888;
-}
-
-ion-card-content {
-  font-size: 1em;
-  color: #ffffff;
-}
-
-ion-toolbar {
-  --background: #1f1f1f;
-  --color: #ffffff;
-}
-
-ion-header ion-title {
-  font-size: 1.4em;
+.custom-button {
+  width: 200px; /* Vous pouvez ajuster la largeur ici */
+  border-radius: 20px; /* Vous pouvez ajuster le rayon des bords ici */
+  --background: #3880ff; /* Optionnel : changer la couleur de fond du bouton */
 }
 </style>

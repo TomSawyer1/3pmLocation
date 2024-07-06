@@ -56,10 +56,7 @@ ion-label {
   color: #ffffff;
 }
 
-ion-toolbar {
-  --background: #1f1f1f;
-  --color: #ffffff;
-}
+
 
 ion-header ion-title {
   font-size: 1.4em;

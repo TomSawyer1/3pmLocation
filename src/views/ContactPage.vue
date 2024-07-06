@@ -9,7 +9,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content class="ion-padding">
+    <ion-content class="ion-padding content-center">
       <ion-item>
         <ion-label position="stacked">Nom/Prénom</ion-label>
         <ion-input v-model="form.name"></ion-input>
@@ -98,10 +98,7 @@ ion-textarea {
   color: #ffffff;
 }
 
-ion-toolbar {
-  --background: #1f1f1f;
-  --color: #ffffff;
-}
+
 
 ion-header ion-title {
   font-size: 1.4em;
@@ -112,5 +109,13 @@ ion-content {
   --padding-start: 16px;
   --padding-end: 16px;
   color: #ffffff;
+}
+
+.content-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
 }
 </style>
