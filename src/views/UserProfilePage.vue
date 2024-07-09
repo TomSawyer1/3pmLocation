@@ -9,10 +9,11 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <ion-card color="danger">
+      <ion-card color="primary">
         <ion-card-header>
           <ion-card-title>{{ user.firstName }} {{ user.lastName }}</ion-card-title>
           <ion-card-subtitle>{{ user.email }}</ion-card-subtitle>
+          <ion-card-subtitle>Vous possedez un abonnement basic</ion-card-subtitle>
         </ion-card-header>
       </ion-card>
 

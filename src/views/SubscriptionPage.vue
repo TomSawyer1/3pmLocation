@@ -88,9 +88,9 @@ const getProducts = async () => {
 };
 
 const getCardColor = (name) => {
-  if (name.includes('Primary')) return 'primary';
-  if (name.includes('Secondary')) return 'secondary';
-  if (name.includes('Red')) return 'danger';
+  if (name.includes('Basic')) return 'primary';
+  if (name.includes('Prenium')) return 'secondary';
+  if (name.includes('Prenium+')) return 'danger';
   return 'default';
 };
 
