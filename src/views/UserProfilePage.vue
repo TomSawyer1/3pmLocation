@@ -1,3 +1,4 @@
+
 <template>
   <ion-page>
     <ion-header>
@@ -13,36 +14,10 @@
         <ion-card-header>
           <ion-card-title>{{ user.firstName }} {{ user.lastName }}</ion-card-title>
           <ion-card-subtitle>{{ user.email }}</ion-card-subtitle>
-          <ion-card-subtitle>Vous possedez un abonnement basic</ion-card-subtitle>
+          <ion-card-subtitle>Vous possedez un abonnement {{ currentSubscription }}</ion-card-subtitle>
         </ion-card-header>
       </ion-card>
-
-      <ion-grid>
-        <ion-row>
-          <ion-col>Type</ion-col>
-          <ion-col>Date</ion-col>
-          <ion-col>Montant</ion-col>
-        </ion-row>
-        <ion-row v-for="payment in recentPayments" :key="payment.id">
-          <ion-col>{{ payment.type }}</ion-col>
-          <ion-col>{{ payment.date }}</ion-col>
-          <ion-col>{{ payment.amount }}</ion-col>
-        </ion-row>
-      </ion-grid>
       
-      <ion-grid>
-        <ion-row>
-          <ion-col>Type</ion-col>
-          <ion-col>Date</ion-col>
-          <ion-col>Montant</ion-col>
-        </ion-row>
-        <ion-row v-for="payment in upcomingPayments" :key="payment.id">
-          <ion-col>{{ payment.type }}</ion-col>
-          <ion-col>{{ payment.date }}</ion-col>
-          <ion-col>{{ payment.amount }}</ion-col>
-        </ion-row>
-      </ion-grid>
-
       <ion-item>
         <ion-label position="stacked">Prénom</ion-label>
         <ion-input v-model="user.firstName"></ion-input>
@@ -135,6 +110,8 @@ const showUpdateAlert = ref(false);
 const showDeleteAlert = ref(false);
 const payments = ref([]);
 
+const currentSubscription = ref('en cours de chargement...');
+
 const recentPayments = computed(() => {
   return payments.value.filter(payment => payment.type === 'Passé');
 });
@@ -166,8 +143,12 @@ const getUserProfile = async () => {
       }
     });
     payments.value = paymentResponse.data;
+
+    // Assuming the subscription name is part of the user data response
+    currentSubscription.value = userData.subscription_name || 'aucun abonnement actif';
   } catch (error) {
     console.error('Error fetching user profile:', error);
+    currentSubscription.value = 'aucun abonnement actif';
   }
 };
 
