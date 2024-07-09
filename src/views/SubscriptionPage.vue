@@ -32,11 +32,11 @@
           </ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="stacked">Code promo</ion-label>
         <ion-input v-model="form.promoCode"></ion-input>
-      </ion-item>
-      <ion-button expand="full" @click="submitForm">Souscrire</ion-button>
+      </ion-item> -->
+      <ion-button expand="full" color="tertiary" shape="round" @click="submitForm">Souscrire</ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -90,7 +90,7 @@ const getProducts = async () => {
 const getCardColor = (name) => {
   if (name.includes('Basic')) return 'primary';
   if (name.includes('Prenium')) return 'secondary';
-  if (name.includes('Prenium+')) return 'danger';
+  if (name.includes('Preniumxxl+')) return 'danger';
   return 'default';
 };
 
